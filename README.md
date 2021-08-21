@@ -9,7 +9,7 @@ This repository provide scripts to setup a VM from scratch.
 Get VirtualBox and Vagrant, update Vagrantfile to your taste then launch `vagrant up`.  
 Create a file in `/shared/zsh/.zshrc_personal_commands` of this repo containing what you want to add at the end of `/shared/zsh/.zshrc`.
 
-Run `. /vagrant/override_zsh.sh` and then `/vagrant/install_all.sh`
+Run `. /vagrant/override_zsh.sh`, `/vagrant/override_firefox.sh` and then `/vagrant/install_all.sh`
 
 If disk size is over 40GB, increase the partition for /dev/sda1 to 100GB (GParted live CD can help for that).
 
@@ -41,6 +41,10 @@ vagrant up
 ```
 
 ## Setup tools
+### firefox
+Run `/vagrant/override_firefox.sh`.
+This will setup a predefined firefox profile with some bookmarks and plugins.
+
 ### zsh
 Run `. /vagrant/override_zsh.sh`.  
 Personal commands (not provided in this repo) written in `/vagrant/zsh/.zshrc_personal_commands` will be added at the end of `.zshrc` when calling the `override_zsh.sh` script.
