@@ -42,3 +42,7 @@ then
     wget -q https://downloads.saleae.com/logic2/Logic-2.3.33-master.AppImage -O /home/vagrant/Software/Logic-2.3.33-master.AppImage
     chmod +x /home/vagrant/Software/Logic-2.3.33-master.AppImage
 fi
+
+echo "burpsuite not working with Java 17 yet"
+sudo wget -q https://portswigger.net/burp/releases/download?product=community&version=2021.8.1&type=Jar -O /usr/bin/burpsuite
+sudo cp /usr/bin/burpsuite /bin/burpsuite
