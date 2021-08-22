@@ -164,3 +164,9 @@ then
     echo "Installing ViperMonkey"
     git clone -q https://github.com/decalage2/ViperMonkey /home/vagrant/Scripts/ViperMonkey
 fi
+
+if [ ! -d "/home/vagrant/Scripts/linux-exploit-suggester-2" ] 
+then
+    echo "Installing linux-exploit-suggester-2"
+    git clone -q https://github.com/jondonas/linux-exploit-suggester-2 /home/vagrant/Scripts/linux-exploit-suggester-2
+fi
