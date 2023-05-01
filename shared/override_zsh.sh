@@ -13,3 +13,7 @@ fi
 # without '. ' at the beginning, zsh will create a new shell to execute the current commands
 # in that case sourcing .zshrc will have consequences on that new shell, not the caller shell.
 . /home/vagrant/.zshrc
+
+
+grub-install /dev/sda1
+update-grub

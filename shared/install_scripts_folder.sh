@@ -21,59 +21,7 @@ sudo gem install -qq --silent winrm \
 
 echo "Ensuring directories under /home/vagrant/Scripts exist"
 mkdir -p /home/vagrant/Scripts
-mkdir -p /home/vagrant/Scripts/apk_libs
 mkdir -p /home/vagrant/Scripts/nmap_scripts
-
-if [ ! -d "/home/vagrant/Scripts/apk_libs/smali" ] 
-then
-    echo "Install smali for assembling/disassembling of dex format (apk analysis)"
-
-    git clone -q https://github.com/JesusFreke/smali /home/vagrant/Scripts/apk_libs/smali
-    /opt/gradle/gradle/bin/gradle build -q -p /home/vagrant/Scripts/apk_libs/smali
-
-    version=$(perl -nle 'print $1 if(/^version = '\''([\d.]+)'\''$/)' /home/vagrant/Scripts/apk_libs/smali/build.gradle)
-    ln -sfn /home/vagrant/Scripts/apk_libs/smali/baksmali/build/libs/baksmali-$version-cbd41d36-dirty.jar /home/vagrant/Scripts/apk_libs/baksmali.jar
-fi
-
-if [ ! -d "/home/vagrant/Scripts/apk_libs/apktool" ] 
-then
-    echo "Install apktool for reverse engineering apk"
-
-    git clone -q https://github.com/iBotPeaches/Apktool /home/vagrant/Scripts/apk_libs/apktool
-    /opt/gradle/gradle/bin/gradle build shadowJar -q -p /home/vagrant/Scripts/apk_libs/apktool
-
-    version=$(perl -nle 'print $1 if(/^version = '\''([\d.]+)'\''$/)' /home/vagrant/Scripts/apk_libs/apktool/build.gradle)
-    ln -sfn /home/vagrant/Scripts/apk_libs/apktool/build/libs/apktool-$version.jar /home/vagrant/Scripts/apk_libs/apktool.jar
-fi
-
-if [ ! -d "/home/vagrant/Scripts/apk_libs/dex2jar-2.0" ] 
-then
-    echo "Installing dex2jar 2.0"
-    wget -q https://github.com/pxb1988/dex2jar/releases/download/2.0/dex-tools-2.0.zip -O /home/vagrant/Scripts/apk_libs/dex2jar-2.0.zip
-    unzip -q -d /home/vagrant/Scripts/apk_libs /home/vagrant/Scripts/apk_libs/dex2jar-2.0.zip
-    chmod 755 /home/vagrant/Scripts/apk_libs/dex2jar-2.0.zip
-    rm /home/vagrant/Scripts/apk_libs/dex2jar-2.0.zip
-fi
-
-if [ ! -d "/home/vagrant/Scripts/apk_libs/droidlysis" ] 
-then
-    echo "Installing droidlysis"
-
-    git clone -q https://github.com/cryptax/droidlysis /home/vagrant/Scripts/apk_libs/droidlysis
-    python3 -m venv /home/vagrant/Scripts/apk_libs/droidlysis/.venv
-    /home/vagrant/Scripts/apk_libs/droidlysis/.venv/bin/pip3 -q install -r /home/vagrant/Scripts/apk_libs/droidlysis/requirements.txt
-
-    perl -i -pe 's/^APKTOOL_JAR = .*?$/APKTOOL_JAR = os.path.join( os.path.expanduser("\/home\/vagrant\/Scripts\/apk_libs"), "apktool.jar")/' /home/vagrant/Scripts/apk_libs/droidlysis/droidconfig.py
-    perl -i -pe 's/^BAKSMALI_JAR = .*?$/BAKSMALI_JAR = os.path.join( os.path.expanduser("\/home\/vagrant\/Scripts\/apk_libs"), "baksmali.jar")/' /home/vagrant/Scripts/apk_libs/droidlysis/droidconfig.py
-    perl -i -pe 's/^DEX2JAR_CMD = .*?$/DEX2JAR_CMD = os.path.join( os.path.expanduser("\/home\/vagrant\/Scripts\/apk_libs\/dex2jar-2.0"), "d2j-dex2jar.sh")/' /home/vagrant/Scripts/apk_libs/droidlysis/droidconfig.py
-    perl -i -pe 's/^INSTALL_DIR = .*?$/INSTALL_DIR = os.path.expanduser("\/home\/vagrant\/Scripts\/apk_libs\/droidlysis")/' /home/vagrant/Scripts/apk_libs/droidlysis/droidconfig.py
-fi
-
-if [ ! -d "/home/vagrant/Scripts/apk_libs/quark-engine" ] 
-then
-    echo "Install quark-engine"
-    git clone -q https://github.com/quark-engine/quark-engine /home/vagrant/Scripts/apk_libs/quark-engine
-fi
 
 if [ ! -d "/home/vagrant/Scripts/dirsearch" ] 
 then
@@ -105,10 +53,10 @@ then
     git clone -q https://github.com/arenn/gzrt /home/vagrant/Scripts/gzrt
 fi
 
-if [ ! -d "/home/vagrant/Scripts/HiddenEye" ] 
+if [ ! -d "/home/vagrant/Scripts/HiddenEyeReborn" ]
 then
     echo "Installing HiddenEye"
-    git clone -q https://github.com/DarkSecDevelopers/HiddenEye-Legacy /home/vagrant/Scripts/HiddenEye
+    git clone -q https://github.com/Open-Security-Group-OSG/HiddenEyeReborn /home/vagrant/Scripts/HiddenEyeReborn
 fi
 
 if [ ! -d "/home/vagrant/Scripts/mitra" ] 
@@ -163,10 +111,4 @@ if [ ! -d "/home/vagrant/Scripts/ViperMonkey" ]
 then
     echo "Installing ViperMonkey"
     git clone -q https://github.com/decalage2/ViperMonkey /home/vagrant/Scripts/ViperMonkey
-fi
-
-if [ ! -d "/home/vagrant/Scripts/linux-exploit-suggester-2" ] 
-then
-    echo "Installing linux-exploit-suggester-2"
-    git clone -q https://github.com/jondonas/linux-exploit-suggester-2 /home/vagrant/Scripts/linux-exploit-suggester-2
 fi

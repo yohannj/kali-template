@@ -43,6 +43,9 @@ then
     chmod +x /home/vagrant/Software/Logic-2.3.33-master.AppImage
 fi
 
-echo "burpsuite not working with Java 17 yet"
-sudo wget -q https://portswigger.net/burp/releases/download?product=community&version=2021.8.1&type=Jar -O /usr/bin/burpsuite
-sudo cp /usr/bin/burpsuite /bin/burpsuite
+if [ ! -f "/home/vagrant/Software/kerbrute" ] 
+then
+    echo "Installing Kerbrute"
+    wget -q https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O /home/vagrant/Software/kerbrute
+    chmod +x /home/vagrant/Software/kerbrute
+fi
