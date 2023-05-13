@@ -4,8 +4,17 @@ scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 
 echo "Installing apt dependencies for scripts"
 sudo apt-get install -qq -y default-jre \
+                        docker-compose \
                         git \
+                        libdb4o-cil-dev \
+                        libgdm-dev \
                         libmagic-dev \
+                        libncurses5-dev \
+                        libpcap-dev
+                        libreadline-dev \
+                        libsqlite3-dev \
+                        libssl-dev \
+                        libtk8.6 \
                         libxml2-dev \
                         libxslt-dev \
                         python3 \
@@ -13,6 +22,14 @@ sudo apt-get install -qq -y default-jre \
                         python3-venv \
                         unzip \
                         wget
+
+sudo usermod -aG docker vagrant
+
+echo "Installing python3 dependencies for scripts"
+python3 -m pip install --quiet mysql \
+                            mysql-connector \
+                            requests_ntlm \
+                            pwntools
 
 echo "Installing gem dependencies for scripts"
 sudo gem install -qq --silent winrm \
@@ -41,6 +58,13 @@ then
     cp "$scriptDir"/homemade_scripts/extract_private_keys_from_dump.py /home/vagrant/Scripts/extract_private_keys_from_dump.py
 fi
 
+if [ ! -f "/home/vagrant/.local/bin/flask-unsign" ]
+then
+    echo "Installing flask-unsign"
+    python3 -m pip install --quiet --no-warn-script-location flask-unsign
+    echo 'export PATH=/home/vagrant/.local/bin:$PATH' >> /home/vagrant/.zshenv
+fi
+
 if [ ! -d "/home/vagrant/Scripts/GitTools" ] 
 then
     echo "Installing GitTools"
@@ -58,6 +82,14 @@ then
     echo "Installing HiddenEye"
     git clone -q https://github.com/Open-Security-Group-OSG/HiddenEyeReborn /home/vagrant/Scripts/HiddenEyeReborn
 fi
+
+if [ ! -d "/home/vagrant/Scripts/jwt_tool" ]
+then
+    echo "Installing jwt_tool"
+    git clone -q https://github.com/ticarpi/jwt_tool /home/vagrant/Scripts/jwt_tool
+fi
+
+https://github.com/ticarpi/jwt_tool
 
 if [ ! -d "/home/vagrant/Scripts/mitra" ] 
 then
